@@ -1,0 +1,293 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+body {
+  font-family: var(--font-manrope), Arial, Helvetica, sans-serif;
+}
+
+@layer base {
+  :root {
+    --radius: 0.5rem;
+    --primary: "#C52128";
+    --font-manrope: "Manrope", sans-serif;
+    --font-bebas-neue: "Bebas Neue", sans-serif;
+  }
+
+  * {
+    @apply text-sm;
+  }
+
+  .font-bebas {
+    font-family: var(--font-bebas-neue);
+  }
+  h1 {
+    @apply text-5xl font-bold;
+    font-family: var(--font-bebas-neue), sans-serif;
+  }
+  h2 {
+    @apply text-3xl font-bold;
+    font-family: var(--font-bebas-neue), sans-serif;
+  }
+  h3 {
+    @apply text-2xl font-bold;
+  }
+  h4 {
+    @apply text-xl font-bold;
+  }
+  h5 {
+    @apply text-lg font-bold;
+  }
+
+  .ltr {
+    direction: ltr;
+  }
+  .react-tel-input .form-control {
+    @apply border-input focus-visible:ring-ring h-10 w-full border bg-white px-3 py-2 text-base text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .react-tel-input .flag-dropdown {
+    @apply border-input border bg-white hover:bg-gray-100 hover:text-gray-900;
+  }
+
+  .react-tel-input .selected-flag {
+    @apply bg-transparent hover:bg-gray-100;
+  }
+
+  .react-tel-input .country-list {
+    @apply border-input border bg-white;
+  }
+
+  .react-tel-input .country-list .country:hover {
+    @apply bg-gray-100;
+  }
+
+  .react-tel-input .country-list .country.highlight {
+    @apply bg-gray-100;
+  }
+
+  .prose {
+    @apply text-lg flex flex-col gap-y-4 items-center;
+  }
+
+  /* Headings */
+  .prose h1 {
+    @apply text-4xl font-bold;
+  }
+
+  .prose h1 strong {
+    @apply font-bold text-4xl w-full;
+  }
+
+  .prose h2 {
+    @apply text-3xl font-bold;
+  }
+
+  .prose h2 strong {
+    @apply font-bold text-4xl w-full;
+  }
+
+  .prose h3 {
+    @apply text-2xl font-bold;
+  }
+
+  .prose h3 strong {
+    @apply font-bold text-4xl w-full;
+  }
+
+  .prose h4 {
+    @apply text-xl font-bold;
+  }
+
+  .prose img {
+    @apply rounded-xl w-full;
+  }
+
+  .prose p {
+    @apply text-lg;
+  }
+
+  .prose p span {
+    @apply font-bold text-lg;
+  }
+
+  .prose ol {
+    @apply list-decimal flex flex-col gap-y-2;
+  }
+
+  .prose ol ol li {
+    @apply ml-4;
+  }
+
+  .prose ul {
+    @apply list-disc flex flex-col gap-y-2;
+  }
+
+  .prose li {
+    @apply text-lg;
+  }
+}
+
+@layer utilities {
+  /* Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+
+  input:focus ~ label,
+  input:not(:placeholder-shown) ~ label {
+    @apply -translate-y-2 text-xsmall-regular;
+  }
+
+  input:focus ~ label {
+    @apply left-0;
+  }
+
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  textarea:-webkit-autofill,
+  textarea:-webkit-autofill:hover,
+  textarea:-webkit-autofill:focus,
+  select:-webkit-autofill,
+  select:-webkit-autofill:hover,
+  select:-webkit-autofill:focus {
+    border: 1px solid #212121;
+    -webkit-text-fill-color: #212121;
+    -webkit-box-shadow: 0 0 0px 1000px #fff inset;
+    transition: background-color 5000s ease-in-out 0s;
+  }
+
+  input[type="search"]::-webkit-search-decoration,
+  input[type="search"]::-webkit-search-cancel-button,
+  input[type="search"]::-webkit-search-results-button,
+  input[type="search"]::-webkit-search-results-decoration {
+    -webkit-appearance: none;
+  }
+}
+
+@layer components {
+  .content-container {
+    @apply max-w-[1440px] w-full mx-auto px-6;
+  }
+
+  .contrast-btn {
+    @apply px-4 py-2 border border-black rounded-full hover:bg-black hover:text-white transition-colors duration-200 ease-in;
+  }
+
+  .text-xsmall-regular {
+    @apply text-[10px] leading-4 font-normal;
+  }
+
+  .text-small-regular {
+    @apply text-xs leading-5 font-normal;
+  }
+
+  .text-small-semi {
+    @apply text-xs leading-5 font-semibold;
+  }
+
+  .text-base-regular {
+    @apply text-sm leading-6 font-normal;
+  }
+
+  .text-base-semi {
+    @apply text-sm leading-6 font-semibold;
+  }
+
+  .text-large-regular {
+    @apply text-base leading-6 font-normal;
+  }
+
+  .text-large-semi {
+    @apply text-base leading-6 font-semibold;
+  }
+
+  .text-xl-regular {
+    @apply text-2xl leading-[36px] font-normal;
+  }
+
+  .text-xl-semi {
+    @apply text-2xl leading-[36px] font-semibold;
+  }
+
+  .text-2xl-regular {
+    @apply text-[30px] leading-[48px] font-normal;
+  }
+
+  .text-2xl-semi {
+    @apply text-[30px] leading-[48px] font-semibold;
+  }
+
+  .text-3xl-regular {
+    @apply text-[32px] leading-[44px] font-normal;
+  }
+
+  .text-3xl-semi {
+    @apply text-[32px] leading-[44px] font-semibold;
+  }
+}
+
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 5px solid #f93a50;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  position: relative;
+  animation: pulse 1s linear infinite;
+}
+.loader:after {
+  content: "";
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  border: 5px solid #f93a50;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  animation: scaleUp 1s linear infinite;
+}
+@keyframes scaleUp {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+  }
+  60%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+@keyframes pulse {
+  0%,
+  60%,
+  100% {
+    transform: scale(1);
+  }
+  80% {
+    transform: scale(1.2);
+  }
+}
+.mobileCategories::-webkit-scrollbar {
+  @apply h-0 w-0 bg-transparent;
+}
+
+.second-child:nth-child(2) {
+  @apply border-l border-gray-400; /* or whatever border you need */
+}
+
+.wrapper-scroll::-webkit-scrollbar {
+  width: 0px;
+}
