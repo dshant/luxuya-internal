@@ -181,15 +181,15 @@ const Item = ({ item, type = "full", currencyCode }: ItemProps) => {
           </div>
 
           <div className='flex flex-col gap-3'>
-            <p className=' text-gray-500 font-medium line-through'>
+            {/* <p className=' text-gray-500 font-medium line-through'>
               {convertToLocale({
                 amount: item.original_total,
                 currency_code: currencyCode,
               })}
-            </p>
+            </p> */}
 
             <div className='flex items-center gap-x-2'>
-              <p className='font-medium'>
+              {/* <p className='font-medium'>
                 -
                 {convertToLocale({
                   amount: 20,
@@ -199,7 +199,7 @@ const Item = ({ item, type = "full", currencyCode }: ItemProps) => {
 
               <div className='rounded-md bg-red-600 flex items-center justify-center'>
                 <p className='text-white font-semibold px-2 py-1'>Sale</p>
-              </div>
+              </div> */}
             </div>
 
             <p
@@ -222,7 +222,7 @@ const Item = ({ item, type = "full", currencyCode }: ItemProps) => {
           [&>div>p:first-child]:mb-1
           '
             >
-              <div>
+              {/* <div>
                 <p>Size</p>
                 <p>L</p>
               </div>
@@ -230,7 +230,7 @@ const Item = ({ item, type = "full", currencyCode }: ItemProps) => {
               <div>
                 <p>Color</p>
                 <p>Black</p>
-              </div>
+              </div> */}
             </div>
 
             <button
