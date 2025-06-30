@@ -87,7 +87,8 @@ export default function ProductActions({
 
   // Helper to get real-time inventory for a variant
   const getRealInventory = (variant: any) => {
-    const cartQty = cart?.find((item: any) => item?.variant_id === variant?.id)?.quantity || 0
+    const cartQty =
+      cart?.find((item: any) => item?.variant_id === variant?.id)?.quantity || 0
     return (variant?.inventory_quantity || 0) - cartQty
   }
 
@@ -99,7 +100,7 @@ export default function ProductActions({
   const fallbackVariant = product?.variants?.find(
     (variant: any) => getRealInventory(variant) > 0
   )
-  const defaultVariant = cheapestVariant || fallbackVariant;
+  const defaultVariant = cheapestVariant || fallbackVariant
 
   const [options, setOptions] = useState<Record<string, string | undefined>>({})
   const [isAdding, setIsAdding] = useState(false)
@@ -126,21 +127,32 @@ export default function ProductActions({
   // Dynamically compute outOfStockSizes for all variants based on real-time inventory
   const computedOutOfStockSizes = useMemo(() => {
     if (!product?.variants) return []
-    return product.variants.reduce((acc: Record<string, string>[], variant: any) => {
-      // Calculate cart quantity for this variant
-      const cartQty = cart?.find((item: any) => item?.variant_id === variant?.id)?.quantity || 0
-      const realInventory = (variant?.inventory_quantity || 0) - cartQty
-      if (variant.manage_inventory && realInventory <= 0) {
-        const optionsMap = optionsAsKeymap(variant.options)
-        if (optionsMap && Object.keys(optionsMap).length > 0) {
-          // Avoid duplicates
-          if (!acc.some((opt: Record<string, string>) => JSON.stringify(opt) === JSON.stringify(optionsMap as Record<string, string>))) {
-            acc.push(optionsMap as Record<string, string>)
+    return product.variants.reduce(
+      (acc: Record<string, string>[], variant: any) => {
+        // Calculate cart quantity for this variant
+        const cartQty =
+          cart?.find((item: any) => item?.variant_id === variant?.id)
+            ?.quantity || 0
+        const realInventory = (variant?.inventory_quantity || 0) - cartQty
+        if (variant.manage_inventory && realInventory <= 0) {
+          const optionsMap = optionsAsKeymap(variant.options)
+          if (optionsMap && Object.keys(optionsMap).length > 0) {
+            // Avoid duplicates
+            if (
+              !acc.some(
+                (opt: Record<string, string>) =>
+                  JSON.stringify(opt) ===
+                  JSON.stringify(optionsMap as Record<string, string>)
+              )
+            ) {
+              acc.push(optionsMap as Record<string, string>)
+            }
           }
         }
-      }
-      return acc
-    }, [] as Record<string, string>[])
+        return acc
+      },
+      [] as Record<string, string>[]
+    )
   }, [product?.variants, cart])
 
   // Update the options when a variant is selected
@@ -165,18 +177,20 @@ export default function ProductActions({
 
   // Calculate current cart item quantity for inventory display
   const currentCartItemQuantity = useMemo(() => {
-    return product?.variants
-      ?.map((variant: any) => {
-        const findItem = cart?.find(
-          (item: any) =>
-            item?.title === variant?.title &&
-            variant?.id === item?.variant_id &&
-            item?.title === selectedVariant?.title
-        )
-        return findItem ? findItem?.quantity : 0
-      })
-      .filter((item: any) => item > 0)
-      ?.at(0) || 0
+    return (
+      product?.variants
+        ?.map((variant: any) => {
+          const findItem = cart?.find(
+            (item: any) =>
+              item?.title === variant?.title &&
+              variant?.id === item?.variant_id &&
+              item?.title === selectedVariant?.title
+          )
+          return findItem ? findItem?.quantity : 0
+        })
+        .filter((item: any) => item > 0)
+        ?.at(0) || 0
+    )
   }, [product?.variants, cart, selectedVariant])
 
   // Calculate inventory quantity for stock status display
@@ -300,34 +314,32 @@ export default function ProductActions({
 
   // Check if the selected variant is in stock
   const inStock = useMemo(() => {
-    if (
-      selectedVariant?.manage_inventory &&
-      inventoryQty > 0
-    ) {
+    if (selectedVariant?.manage_inventory && inventoryQty > 0) {
       return true
     }
     return false
   }, [selectedVariant, inventoryQty])
 
-
   // Calculate cart item quantity for the selected variant
   const cartItemQuantity = useMemo(() => {
-    return product?.variants
-      ?.map((variant: any) => {
-        const findItem = cart?.find(
-          (item: any) =>
-            item?.title === variant?.title &&
-            variant?.id === item?.variant_id &&
-            item.title === selectedVariant?.title
-        )
-        if (findItem?.quantity !== selectedVariant?.inventory_quantity) {
-          return 0
-        } else {
-          return 1
-        }
-      })
-      .filter((item: any) => item > 0)
-      ?.at(0) || 0
+    return (
+      product?.variants
+        ?.map((variant: any) => {
+          const findItem = cart?.find(
+            (item: any) =>
+              item?.title === variant?.title &&
+              variant?.id === item?.variant_id &&
+              item.title === selectedVariant?.title
+          )
+          if (findItem?.quantity !== selectedVariant?.inventory_quantity) {
+            return 0
+          } else {
+            return 1
+          }
+        })
+        .filter((item: any) => item > 0)
+        ?.at(0) || 0
+    )
   }, [product?.variants, cart, selectedVariant])
 
   return (

@@ -1,17 +1,17 @@
-import repeat from "@lib/util/repeat";
-import { HttpTypes } from "@medusajs/types";
-import { Heading } from "@medusajs/ui";
+import repeat from "@lib/util/repeat"
+import { HttpTypes } from "@medusajs/types"
+import { Heading } from "@medusajs/ui"
 
-import Item from "@modules/cart/components/item";
-import { TranslatedTextServer } from "@modules/common/components/translation/translatest-text-server";
-import SkeletonLineItem from "@modules/skeletons/components/skeleton-line-item";
+import Item from "@modules/cart/components/item"
+import { TranslatedTextServer } from "@modules/common/components/translation/translatest-text-server"
+import SkeletonLineItem from "@modules/skeletons/components/skeleton-line-item"
 
 type ItemsTemplateProps = {
-  cart?: HttpTypes.StoreCart;
-};
+  cart?: HttpTypes.StoreCart
+}
 
 const ItemsTemplate = ({ cart }: ItemsTemplateProps) => {
-  const items = cart?.items;
+  const items = cart?.items
   return (
     <div>
       {/* <div className='mb-8 flex items-center'>
@@ -22,7 +22,7 @@ const ItemsTemplate = ({ cart }: ItemsTemplateProps) => {
       {items
         ? items
             .sort((a, b) => {
-              return (a.created_at ?? "") > (b.created_at ?? "") ? -1 : 1;
+              return (a.created_at ?? "") > (b.created_at ?? "") ? -1 : 1
             })
             .map((item) => {
               return (
@@ -31,16 +31,16 @@ const ItemsTemplate = ({ cart }: ItemsTemplateProps) => {
                   item={item}
                   currencyCode={cart?.currency_code}
                 />
-              );
+              )
             })
         : repeat(5).map((i) => {
-            return <SkeletonLineItem key={i} />;
+            return <SkeletonLineItem key={i} />
           })}
     </div>
-  );
-};
+  )
+}
 
-export default ItemsTemplate;
+export default ItemsTemplate
 
 // import repeat from "@lib/util/repeat"
 // import { HttpTypes } from "@medusajs/types"

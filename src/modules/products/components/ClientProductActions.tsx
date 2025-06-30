@@ -16,7 +16,6 @@ import { TranslatedText } from "@modules/common/components/translation/translate
 import useEmblaCarousel from "embla-carousel-react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 
-
 const ClientProductActions = ({
   product,
   region,
@@ -80,7 +79,6 @@ const ClientProductActions = ({
               region={region}
             />
 
-
             <div className="relative h-full w-full">
               {/* Desktop hover effect */}
               <div className="hidden md:block h-full w-full">
@@ -107,7 +105,10 @@ const ClientProductActions = ({
               </div>
 
               {/* Mobile Swiper effect */}
-              <div className="md:hidden relative h-full w-full overflow-hidden" ref={emblaRef}>
+              <div
+                className="md:hidden relative h-full w-full overflow-hidden"
+                ref={emblaRef}
+              >
                 <div className="flex h-full">
                   <div className="relative min-w-full h-full">
                     {product.thumbnail ? (
@@ -146,20 +147,24 @@ const ClientProductActions = ({
                           emblaApi?.scrollTo(index)
                         }}
                         aria-label={`Go to image ${index + 1}`}
-                        className={`h-2 w-2 rounded-full transition-all duration-300 ${selectedIndex === index ? "bg-black scale-110" : "bg-gray-300"
-                          }`}
+                        className={`h-2 w-2 rounded-full transition-all duration-300 ${
+                          selectedIndex === index
+                            ? "bg-black scale-110"
+                            : "bg-gray-300"
+                        }`}
                       />
                     ))}
                   </div>
                 )}
-
               </div>
             </div>
           </LocalizedClientLink>
           {/* Mobile Dot Controls (converted from working buttons) */}
           <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-2 z-10 md:hidden">
             <button
-              className={`h-2 w-2 rounded-full ${selectedIndex === 0 ? "bg-black scale-110" : "bg-gray-300"}`}
+              className={`h-2 w-2 rounded-full ${
+                selectedIndex === 0 ? "bg-black scale-110" : "bg-gray-300"
+              }`}
               onClick={(e) => {
                 e.stopPropagation()
                 emblaApi?.scrollTo(0)
@@ -167,7 +172,9 @@ const ClientProductActions = ({
               aria-label="Go to first image"
             />
             <button
-              className={`h-2 w-2 rounded-full ${selectedIndex === 1 ? "bg-black scale-110" : "bg-gray-300"}`}
+              className={`h-2 w-2 rounded-full ${
+                selectedIndex === 1 ? "bg-black scale-110" : "bg-gray-300"
+              }`}
               onClick={(e) => {
                 e.stopPropagation()
                 emblaApi?.scrollTo(1)
@@ -185,17 +192,6 @@ const ClientProductActions = ({
               e.stopPropagation()
             }}
           >
-            <Button
-              variant="glass"
-              size="sm"
-              className="w-full"
-              onClick={(e) => {
-                e.stopPropagation()
-                setShowOptions(false)
-              }}
-            >
-              <TranslatedText text="Hide options" />
-            </Button>
             <Suspense fallback={<></>}>
               <ProductActions
                 product={product}
@@ -252,13 +248,14 @@ const ClientProductActions = ({
       </motion.div>
       <LocalizedClientLink
         href={`/products/${product.handle}`}
-        onClick={handleTrack}>
+        onClick={handleTrack}
+      >
         <ProductPrice
           product={product}
           region={region}
           variant={selectedVariant}
         />
-      </LocalizedClientLink >
+      </LocalizedClientLink>
     </>
   )
 }
