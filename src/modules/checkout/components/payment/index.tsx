@@ -168,7 +168,7 @@ const Payment = ({
 
         if (message.sender === "MF-3DSecure") {
           const url: string = message.url
-
+          console.log("MyFatoorah Message Received:", message)
           if (url && url.includes("my-fatoorah/success")) {
             try {
               const response = await placeOrder()
@@ -219,17 +219,19 @@ const Payment = ({
         case "Card":
           console.log("Card response:", response)
           // const sampleResponse = `{"isSuccess":true,"paymentType":"Card","sessionId":"cf68a2b2-027c-41f5-8c07-bd6f4a5021a3","card":{"brand":"Visa","identifier":"b4eda25d8a64929c02240406fc5cdc5417e4d021e1d055e43edb61e8d4903cfa","token":"Token0106211226435","number":"450875xxxxxx1019","nameOnCard":"Muhammad","expiryYear":"26","expiryMonth":"06","issuer":"The Co-Operative Bank Plc","issuerCountry":"GBR","fundingMethod":"debit","productName":"Visa Classic"}}`
+
           await sdk.client
             .fetch(`/store/my-fatoorah/execute-payment`, {
               method: "POST",
               body: {
                 sessionId: response.sessionId,
-                invoiceValue: 100,
+                invoiceValue: myFatoorahAmount,
                 countryCode: cart?.region?.name?.toLowerCase(),
               },
               cache: "no-cache",
             })
             .then((executeResponse: any) => {
+              console.log("Execute Payment Response", executeResponse)
               setMyfatoorahRedirectUrl(executeResponse.Data?.PaymentURL)
             })
             .catch((error: any) =>
