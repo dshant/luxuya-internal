@@ -65,7 +65,7 @@ const ClientProductActions = ({
       <motion.div className='group flex w-full flex-col items-center gap-y-2'>
         <div
           onMouseEnter={() => setShowOptions(true)}
-          // onMouseLeave={() => setShowOptions(false)}
+          onMouseLeave={() => setShowOptions(false)}
           className='relative flex h-[300px] w-full cursor-pointer items-center justify-center overflow-hidden rounded-lg border border-gray-200/50 md:h-[400px] lg:h-[500px]'
         >
           <LocalizedClientLink
