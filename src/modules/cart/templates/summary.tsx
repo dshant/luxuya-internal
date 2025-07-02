@@ -1,42 +1,42 @@
-"use client"
+"use client";
 
-import { Container, Heading } from "@medusajs/ui"
+import { Container, Heading } from "@medusajs/ui";
 
-import CartTotals from "@modules/common/components/cart-totals"
-import Divider from "@modules/common/components/divider"
-import DiscountCode from "@modules/checkout/components/discount-code"
-import LocalizedClientLink from "@modules/common/components/localized-client-link"
-import { HttpTypes } from "@medusajs/types"
-import { Button } from "@modules/common/components/ui/button"
-import { analytics, getDeviceType, getOSInfo } from "@lib/context/segment"
-import { TranslatedText } from "@modules/common/components/translation/translated-text"
+import CartTotals from "@modules/common/components/cart-totals";
+import Divider from "@modules/common/components/divider";
+import DiscountCode from "@modules/checkout/components/discount-code";
+import LocalizedClientLink from "@modules/common/components/localized-client-link";
+import { HttpTypes } from "@medusajs/types";
+import { Button } from "@modules/common/components/ui/button";
+import { analytics, getDeviceType, getOSInfo } from "@lib/context/segment";
+import { TranslatedText } from "@modules/common/components/translation/translated-text";
 
 type SummaryProps = {
   cart: HttpTypes.StoreCart & {
-    promotions: HttpTypes.StorePromotion[]
-  }
-}
+    promotions: HttpTypes.StorePromotion[];
+  };
+};
 
 function getCheckoutStep(cart: HttpTypes.StoreCart) {
   if (!cart?.shipping_address?.address_1 || !cart.email) {
-    return "address"
+    return "address";
   } else if (cart?.shipping_methods?.length === 0) {
-    return "delivery"
+    return "delivery";
   } else {
-    return "payment"
+    return "payment";
   }
 }
 
 const Summary = ({ cart }: SummaryProps) => {
   const handleCheckoutClick = async () => {
-    let contentIds = ""
+    let contentIds = "";
     cart.items?.forEach((item, index) => {
-      contentIds += item.variant_id
+      contentIds += item.variant_id;
 
       if (index !== cart.items!.length - 1) {
-        contentIds += ","
+        contentIds += ",";
       }
-    })
+    });
 
     await analytics.track(
       "Checkout Started",
@@ -83,35 +83,38 @@ const Summary = ({ cart }: SummaryProps) => {
           },
         },
       }
-    )
-  }
+    );
+  };
 
-  const step = getCheckoutStep(cart)
+  const step = getCheckoutStep(cart);
 
   return (
-    <div className="w-full rounded-lg px-6 py-4">
-      <div className="flex flex-col gap-y-4">
-        <Heading level="h2" className="text-[1.5rem] leading-[2.75rem]">
-          <TranslatedText text="Summary" />
+    <div className='w-full rounded-lg px-6 py-4'>
+      <div className='flex flex-col gap-y-4'>
+        <Heading
+          level='h2'
+          className='text-[22px] text-[#222] font-[400] leading-[2.75rem]'
+        >
+          <TranslatedText text='Summary' />
         </Heading>
         <DiscountCode cart={cart} />
         <Divider />
         <CartTotals totals={cart} />
         <LocalizedClientLink
           href={"/checkout?step=" + step}
-          data-testid="checkout-button"
-          className="sticky bottom-0"
+          data-testid='checkout-button'
+          className='sticky bottom-0'
         >
           <Button
-            className="w-full h-10 bg-red-700 hover:bg-red-800 text-white"
+            className='w-full max-small:w-[280px] max-sm:w-full h-10 bg-red-700 hover:bg-red-800 font-semibold text-white'
             onClick={handleCheckoutClick}
           >
-            <TranslatedText text="Go to checkout" />
+            <TranslatedText text='Go to checkout' />
           </Button>
         </LocalizedClientLink>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Summary
+export default Summary;
