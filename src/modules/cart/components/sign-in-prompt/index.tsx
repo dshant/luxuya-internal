@@ -8,7 +8,7 @@ const SignInPrompt = () => {
   const { openAuthModal } = useAuthModal()
 
   return (
-    <div className="bg-white flex items-center justify-between">
+    <div className="bg-white flex items-center justify-between max-sm:pb-4">
       <div>
         <Heading level="h2" className="txt-xlarge ltr">
           <TranslatedTextServer text="Already have an account?" />

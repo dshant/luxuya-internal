@@ -1,22 +1,22 @@
-import { cn } from "@lib/util/common";
-import React from "react";
+import { cn } from "@lib/util/common"
+import React from "react"
 
 type LogoProps = {
-  className?: string;
-};
+  className?: string
+}
 
 const Logo = ({ className }: LogoProps) => {
   return (
     <>
       <img
-        src='/logo.svg'
+        src="/logo.svg"
         className={cn("h-12 ", className)}
-        alt='logo'
+        alt="logo"
         height={"100%"}
         width={"100%"}
       />
     </>
-  );
-};
+  )
+}
 
-export default Logo;
+export default Logo
