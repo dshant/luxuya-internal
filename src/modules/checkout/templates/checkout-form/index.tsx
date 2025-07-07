@@ -3,7 +3,8 @@ import { listCartShippingMethods } from "@lib/data/fulfillment"
 import { listCartPaymentMethods } from "@lib/data/payment"
 import { HttpTypes } from "@medusajs/types"
 import Addresses from "@modules/checkout/components/addresses"
-import Payment from "@modules/checkout/components/payment"
+import MyFatoorahPayment from "@modules/checkout/components/payment/myFatoorah"
+import PayPalPayment from "@modules/checkout/components/payment/payPal"
 import Review from "@modules/checkout/components/review"
 import Shipping from "@modules/checkout/components/shipping"
 import { SubmitButton } from "../../components/submit-button"
@@ -24,12 +25,13 @@ export default async function CheckoutForm({
   cart: HttpTypes.StoreCart | null
   customer: HttpTypes.StoreCustomer | null
 }) {
-
   if (!cart) {
     return null
   }
 
   const paymentMethods = await listCartPaymentMethods(cart.region?.id ?? "")
+
+  // console.log("Payment Methods", cart?.region)
 
   if (!paymentMethods) {
     return null
@@ -40,7 +42,14 @@ export default async function CheckoutForm({
       <CheckoutTotals cart={cart} />
       {/* <Wallets cart={cart} /> */}
       <Addresses cart={cart} customer={customer} />
-      <Payment cart={cart} availablePaymentMethods={paymentMethods} />
+      {paymentMethods?.some((pm) => pm.id === "pp_paypal_paypal") ? (
+        <PayPalPayment cart={cart} availablePaymentMethods={paymentMethods} />
+      ) : (
+        <MyFatoorahPayment
+          cart={cart}
+          availablePaymentMethods={paymentMethods}
+        />
+      )}
     </div>
   )
 }
