@@ -201,7 +201,7 @@ export const FilterItems: React.FC<CheckboxProps> = ({
               size="lg"
               className="cursor-pointer"
             >
-              {param === "brand" ? (
+              {/* {param === "brand" ? (
                 <Link
                   href={urlOnBrandFilter(item.value)}
                   className="text-lg"
@@ -209,9 +209,9 @@ export const FilterItems: React.FC<CheckboxProps> = ({
                 >
                   <TranslatedText text={item.value} />
                 </Link>
-              ) : (
+              ) : ( */}
                 <TranslatedText text={item.value} />
-              )}
+              {/* )} */}
             </Label>
           </li>
         )

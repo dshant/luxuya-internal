@@ -9,8 +9,11 @@ import LinkedIn from "@modules/common/icons/linkedIn"
 import Tiktok from "@modules/common/icons/tiktok"
 import Pinterest from "@modules/common/icons/pinterest"
 import { TranslatedText } from "@modules/common/components/translation/translated-text"
+import { useEffect, useState } from "react"
 
 export default function Footer() {
+  const [isMobile, setIsMobile] = useState(false)
+
   const handleSubscribe = async (formData: FormData) => {
     const email = formData.get("email")?.toString() || ""
     if (!verifyEmail(email)) {
@@ -33,6 +36,17 @@ export default function Footer() {
       toast.error("Something went wrong, please try again later")
     }
   }
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768)
+    }
+
+    checkMobile() // Check on mount
+
+    window.addEventListener("resize", checkMobile)
+    return () => window.removeEventListener("resize", checkMobile)
+  }, [])
 
   return (
     <footer className="mt-10 border-t bg-white pt-12 px-5">
@@ -117,7 +131,7 @@ export default function Footer() {
             </li>
           </ul>
         </div>
-        <div className="space-y-4 lg:col-span-4 md:col-span-6">
+        <div className="space-y-4 lg:col-span-4 md:col-span-6 mb-2">
           <h3 className="text-sm font-semibold">
             <TranslatedText text="Newsletter" />
           </h3>
@@ -143,7 +157,7 @@ export default function Footer() {
           <TranslatedText text="KEEP IN TOUCH" />
         </h3>
 
-        <div className="flex gap-2 items-center flex-wrap">
+        <div className={`flex gap-2 items-center flex-wrap ${isMobile?'mb-[100px]':''}`}>
           <Link
             target="_blank"
             href={`https://www.instagram.com/luxuryforyouofficial`}

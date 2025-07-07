@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect, useState } from "react"
+import React from "react"
 import { Box } from "@modules/common/components/box"
 import Divider from "@modules/common/components/divider"
 import FilterWrapper from "./filter-wrapper"
@@ -29,7 +29,7 @@ export default function ProductFilters({
   updateFilters,
   applyFilters,
 }: ProductFiltersProps) {
-  const clearAllUrl = useClearFiltersUrl()
+  const clearAllUrl = useClearFiltersUrl();
 
   const filters = [
     {

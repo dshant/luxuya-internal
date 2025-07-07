@@ -102,9 +102,7 @@ export default async function CategoryTemplate({
   ].filter(Boolean)
   const filter = filterParts.join(" AND ")
 
-  // console.log("genrated filter", filter)
-
-  const { meiliSearchProducts, facets, totalPages } =
+  const { meiliSearchProducts, facets, totalPages, totalProducts } =
     await meilisearchlistProducts({
       q: "",
       filter,
@@ -218,10 +216,11 @@ export default async function CategoryTemplate({
         )}
         <Suspense fallback={<SkeletonProductGrid />}>
           <PaginatedProducts
-            pageNumber={pageNumber}
+            pageNumber={pageNumber<=totalPages?pageNumber:1}
             region={region}
             meiliSearchProducts={meiliSearchProducts}
             totalPages={totalPages}
+            totalProducts ={totalProducts}
             productPerPage={productPerPage}
           />
         </Suspense>
