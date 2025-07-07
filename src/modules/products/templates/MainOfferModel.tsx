@@ -126,7 +126,7 @@ const MainOfferModel: React.FC<InactivityModalProps> = ({
 
   return (
     <Transition appear show={isModalOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-50" onClose={handleCloseModal}>
+      <Dialog as="div" className="relative z-[999]" onClose={handleCloseModal}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"

@@ -52,6 +52,9 @@ const FilterAndSort = ({
       }
     })
 
+    // Remove the page param if present
+    newSearchParams.delete("page")
+
     router.push(createUrl(pathname, newSearchParams), { scroll: false })
   }
 
