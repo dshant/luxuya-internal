@@ -2,7 +2,7 @@ import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch"
 import { useState, useEffect } from "react"
 import { set } from "lodash"
 
-const ZoomImage = ({ src }: { src: string }) => {
+const ZoomImageDesktop = ({ src }: { src: string }) => {
   // const [maxScale] = useState<number>(2)
   // const [doubleClickMode, setDoubleClickMode] = useState<
   //   "zoomIn" | "zoomOut" | "reset" | "toggle" | undefined
@@ -63,4 +63,4 @@ const ZoomImage = ({ src }: { src: string }) => {
   )
 }
 
-export default ZoomImage
+export default ZoomImageDesktop

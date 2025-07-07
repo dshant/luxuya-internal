@@ -10,7 +10,7 @@ import { SubmitButton } from "../submit-button"
 import { HttpTypes } from "@medusajs/types"
 import { useEffect } from "react"
 import { initiatePaymentSession } from "@lib/data/cart"
-import Payment from "../payment";
+import Payment from "../payment/myFatoorah";
 import { listCartPaymentMethods } from "@lib/data/payment";
 
 const CheckoutComponent = ({ cart, customer }: {

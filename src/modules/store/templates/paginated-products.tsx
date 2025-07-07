@@ -9,12 +9,14 @@ export default function PaginatedProducts({
   region,
   meiliSearchProducts,
   totalPages,
+  totalProducts, 
   productPerPage,
 }: {
   pageNumber: number
   region: StoreRegion | null | undefined
   meiliSearchProducts: meiliSearchProduct[]
   totalPages: number
+  totalProducts:number
   productPerPage: number
 }) {
   const searchParams = useSearchParams()
@@ -42,6 +44,7 @@ export default function PaginatedProducts({
   if (!region) {
     return null
   }
+
   return (
     <>
       <ul
@@ -61,8 +64,11 @@ export default function PaginatedProducts({
           <div className="flex justify-center items-center">
             <span>
               {(pageNumber - 1) * productPerPage + 1} – {" "}
-              {Math.min(pageNumber * productPerPage, totalPages * productPerPage)} of{" "}
-              {totalPages * productPerPage} results
+              {totalProducts <= 60
+                ? totalProducts
+                : (pageNumber === totalPages
+                    ? (pageNumber - 1) * productPerPage + meiliSearchProducts.length
+                    : pageNumber * productPerPage)} of {totalProducts} results
             </span>
           </div>
           <div className="flex justify-center">

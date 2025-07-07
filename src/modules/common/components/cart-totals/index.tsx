@@ -119,7 +119,6 @@ const CartTotals: React.FC<CartTotalsProps> = ({
               className="text-ui-fg-interactive"
               data-testid="cart-discount"
               data-value={discount_total || 0}
-              className="text-base"
             >
               -{" "}
               {convertToLocale({ amount: discount_total ?? 0, currency_code })}
@@ -172,18 +171,18 @@ const CartTotals: React.FC<CartTotalsProps> = ({
       </div>
       <div className="h-px w-full border-b border-gray-200 mt-4" />
       {/* <Divider /> */}
-      <div className="flex items-center justify-between text-ui-fg-base mt-3 mb-3 txt-medium">
+      <div className="flex flex-start justify-between text-ui-fg-base mt-3 mb-3 txt-medium">
         <span className="font-medium text-base">
           <TranslatedText text="Total" />
         </span>
-        <div>
+        <div className="text-right">
           <span
             className="txt-xlarge-plus"
             data-testid="cart-total"
             data-value={total || 0}
           >
             <span className="font-normal text-base uppercase mr-1">
-              {currency_code}
+              {/* {currency_code} */}
             </span>
             {isLoading.total ? (
               <LoadingPlaceholder />

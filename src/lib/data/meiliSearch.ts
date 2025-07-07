@@ -18,37 +18,39 @@ export const meilisearchlistProducts = async (query?: Record<string, any>) => {
       page,
       facets: ["sizes", "colors", "brand"],
     })
-
-    .then((response) => ({
-      meiliSearchProducts: response.hits.map((hit) => ({
-        id: hit.id,
-        title: hit.title,
-        description: hit.description,
-        brand: hit.brand,
-        categories: hit.categories,
-        colors: hit.colors || [],
-        gender: hit.gender || "",
-        handle: hit.handle,
-        thumbnail: hit.thumbnail || "",
-        images: hit.images || [],
-        sizes: hit.sizes || [],
-        cheapestVariant: {
-          id: hit.cheapestVariant?.id || "",
-          prices: (hit.cheapestVariant?.prices || []).map(
-            (priceObj: { salePrice: any; price: any; currencyCode: any }) => ({
-              salePrice: priceObj.salePrice || 0,
-              price: priceObj.price || 0,
-              currencyCode: priceObj.currencyCode || "usd",
-            })
-          ),
-        },
-        variants: hit.variants,
-        options: hit.options,
-      })),
-      facets: response.facetDistribution,
-      estimatedTotalHits: response.estimatedTotalHits,
-      totalPages: (response as any).totalPages,
-    }))
+    .then((response) => {
+      return {
+        meiliSearchProducts: response.hits.map((hit) => ({
+          id: hit.id,
+          title: hit.title,
+          description: hit.description,
+          brand: hit.brand,
+          categories: hit.categories,
+          colors: hit.colors || [],
+          gender: hit.gender || "",
+          handle: hit.handle,
+          thumbnail: hit.thumbnail || "",
+          images: hit.images || [],
+          sizes: hit.sizes || [],
+          cheapestVariant: {
+            id: hit.cheapestVariant?.id || "",
+            prices: (hit.cheapestVariant?.prices || []).map(
+              (priceObj: { salePrice: any; price: any; currencyCode: any }) => ({
+                salePrice: priceObj.salePrice || 0,
+                price: priceObj.price || 0,
+                currencyCode: priceObj.currencyCode || "usd",
+              })
+            ),
+          },
+          variants: hit.variants,
+          options: hit.options,
+        })),
+        facets: response.facetDistribution,
+        estimatedTotalHits: response.estimatedTotalHits,
+        totalPages: (response as any).totalPages,
+        totalProducts : (response as any).totalHits,
+      };
+    })    
 }
 
 export const getSortableAttributes = async () => {

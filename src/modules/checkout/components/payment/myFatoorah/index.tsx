@@ -15,12 +15,12 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useCallback, useContext, useEffect, useMemo, useState } from "react"
 import Script from "next/script"
 import { method, set } from "lodash"
-import MyFatoorahModal from "./myfatoorah-payment-modal"
+import MyFatoorahModal from "../myfatoorah-payment-modal"
 import { sdk } from "@lib/config"
 import { HttpTypes } from "@medusajs/types"
 import { updateHsCartToPaid } from "@lib/data/hubspot"
 
-const Payment = ({
+const MyFatoorahPayment = ({
   cart,
   availablePaymentMethods,
 }: {
@@ -35,9 +35,10 @@ const Payment = ({
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(
     activeSession?.provider_id ?? ""
   )
-  const [myFatoorahScriptUrl, setMyFatoorahScriptUrl] = useState<string | null>(
-    null
+  const [myFatoorahScriptUrl, setMyFatoorahScriptUrl] = useState<string>(
+    "https://portal.myfatoorah.com/payment/v1/session.js"
   )
+
   const [myfatoorahRedirectUrl, setMyfatoorahRedirectUrl] = useState<
     string | null
   >()
@@ -79,29 +80,6 @@ const Payment = ({
       scroll: false,
     })
   }
-
-  useEffect(() => {
-    if (cart?.region) {
-      const regionCurrency = cart?.region.currency_code?.toLowerCase()
-      if (regionCurrency === "sar") {
-        setMyFatoorahScriptUrl(
-          "https://sa.myfatoorah.com/payment/v1/session.js"
-        )
-      } else if (regionCurrency === "qar") {
-        setMyFatoorahScriptUrl(
-          "https://qa.myfatoorah.com/payment/v1/session.js"
-        )
-      } else if (regionCurrency === "egp") {
-        setMyFatoorahScriptUrl(
-          "https://eg.myfatoorah.com/payment/v1/session.js"
-        )
-      } else {
-        setMyFatoorahScriptUrl(
-          "https://portal.myfatoorah.com/payment/v1/session.js"
-        )
-      }
-    }
-  }, [cart?.region])
 
   useEffect(() => {
     const initiatePayment = async () => {
@@ -388,7 +366,7 @@ const Payment = ({
 
     const script = document.createElement("script")
     // script.src = "https://demo.myfatoorah.com/payment/v1/session.js"
-    script.src = myFatoorahScriptUrl
+    script.src = "https://portal.myfatoorah.com/payment/v1/session.js"
     script.id = "myfatoorah-script"
     script.onload = () => {
       myFatoorahInitialization(
@@ -556,4 +534,4 @@ const Payment = ({
   )
 }
 
-export default Payment
+export default MyFatoorahPayment
