@@ -79,6 +79,8 @@ const ImageGallery = ({ title, images }: ImageGalleryProps) => {
 
   if (!images) return null
 
+  const placeHolderImage: string = process.env.NEXT_PUBLIC_DUMMY_IMAGE!;
+
   return (
     <>
       <div className="relative col-span-2 mx-auto grid w-full grid-cols-[auto_1fr] gap-x-0 lg:gap-x-4">
@@ -99,10 +101,15 @@ const ImageGallery = ({ title, images }: ImageGalleryProps) => {
                 <Image
                   width={96}
                   height={96}
-                  src={image?.url}
+                  src={image?.url || placeHolderImage}
                   alt={title ?? ""}
                   className="h-full w-full object-cover"
                   style={{ objectFit: "cover" }}
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.onerror = null;
+                    target.src = placeHolderImage;
+                  }}
                 />
               </button>
             ))}
@@ -130,9 +137,14 @@ const ImageGallery = ({ title, images }: ImageGalleryProps) => {
                   <Image
                     width={1000}
                     height={400}
-                    src={image?.url.toString()}
+                    src={image?.url || placeHolderImage}
                     alt={title ?? ""}
                     className="h-full min-h-[380px] max-h-[390px] sm:max-h-[650px] w-full object-contain"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.onerror = null;
+                      target.src = placeHolderImage;
+                    }}
                   />
                 </div>
               ))}
@@ -191,10 +203,15 @@ const ImageGallery = ({ title, images }: ImageGalleryProps) => {
                       <Image
                         width={96}
                         height={96}
-                        src={image?.url}
+                        src={image?.url || placeHolderImage}
                         alt={title ?? ""}
                         className="h-full w-full object-cover"
                         style={{ objectFit: "cover" }}
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.onerror = null;
+                          target.src = placeHolderImage;
+                        }}
                       />
                     </button>
                   ))}
@@ -208,7 +225,7 @@ const ImageGallery = ({ title, images }: ImageGalleryProps) => {
                       <div
                         className="h-screen flex items-center justify-center"
                         key={index}
-                      ><ZoomImage src={image?.url.toString()} />
+                      ><ZoomImage src={image?.url || placeHolderImage} />
                       </div>
                     ))}
                   </div>

@@ -1,6 +1,7 @@
 import { XMarkMini } from "@medusajs/icons"
 import { FormEvent, useEffect, useRef } from "react"
 import { useRouter } from "next/navigation"
+import { X } from "lucide-react"
 
 import SearchBoxWrapper, {
   ControlledSearchBoxProps,
@@ -90,7 +91,7 @@ const ControlledSearchBox = ({
   return (
     <div {...props} className="w-full">
       <form action="" noValidate onSubmit={handleSubmit} onReset={handleReset}>
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between gap-2">
           <input
             ref={inputRef}
             data-testid="search-input"
@@ -110,15 +111,16 @@ const ControlledSearchBox = ({
           />
           {value && <button type="submit">Search</button>}
           {value && (
-            <button
-              onClick={handleReset}
-              type="button"
-              className="items-center justify-center text-ui-fg-on-color focus:outline-none gap-x-2 px-2 txt-compact-large flex"
-            >
-              <XMarkMini />
-            </button>
+            <X size={14} onClick={handleReset} className="cursor-pointer" />
+            // <button
+            //   onClick={handleReset}
+            //   type="button"
+            //   className="items-center justify-center text-ui-fg-on-color focus:outline-none gap-x-2 px-2 txt-compact-large flex"
+            // >
+            //   <X size={14} />
+            // </button>
           )}
-          <button onClick={handleOutsideClick}> Close</button>
+          <button onClick={handleOutsideClick}>Close</button>
         </div>
       </form>
     </div>
