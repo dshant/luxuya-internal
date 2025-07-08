@@ -25,9 +25,9 @@ import { useAuthModal } from "./shared-auth-modal"
 import { TranslatedText } from "@modules/common/components/translation/translated-text"
 import LanguageSelect from "@modules/common/components/language-select"
 import { useLanguageStore } from "@lib/stores/useLanguageStore"
-import * as Dialog from '@radix-ui/react-dialog';
+import * as Dialog from "@radix-ui/react-dialog"
 import { cn } from "@lib/util/cn"
-import { X } from "lucide-react";
+import { X } from "lucide-react"
 
 enum CacheKeys {
   ParentCategories = "parent",
@@ -173,51 +173,39 @@ const MobileMenu = ({ categoriesData }: MobileMenuProps) => {
       </Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100]" />
+        <Dialog.Title></Dialog.Title>
         <Dialog.Content
-          // className="z-[2000] overflow-auto max-w-[90vw] "
           className={cn(
-            'fixed top-0 left-0 bottom-0 z-[200] max-w-[90%] bg-white p-6 transition-transform duration-300',
-            'data-[state=open]:animate-slide-right',
-            'data-[state=closed]:animate-slide-left'
+            "fixed top-0 left-0 bottom-0 z-[200] max-w-[90%] bg-white p-6 transition-transform duration-300",
+            "data-[state=open]:animate-slide-right",
+            "data-[state=closed]:animate-slide-left"
           )}
         >
           <Dialog.Close className="absolute right-4 top-4 rounded-sm opacity-70 transition-opacity hover:opacity-100 focus:outline-none disabled:pointer-events-none data-[state=open]:bg-gray-100">
             <X className="h-4 w-4" />
           </Dialog.Close>
           <SheetHeader className="mt-12 flex flex-row items-center space-y-0">
-            {cacheCategories.get(CacheKeys.ParentCategories)?.map((category) => (
-              // <Button
-              //   key={category.id}
-              //   className={
-              //     currentSelectedMenu?.name === category.name
-              //       ? "bg-green-400 hover:bg-green-500"
-              //       : "hover:bg-slate-100"
-              //   }
-              //   variant="primary"
-              //   onClick={() => handleMenuChange(category.name)}
-              //   size="sm"
-              // >
-              //   {category.name}
-              // </Button>
-
-              <Button
-                className={
-                  currentSelectedMenu?.name === category.name
-                    ? "bg-red-700 hover:bg-red-600 text-white focus-visible:!shadow-transparent focus-visible:!outline-0"
-                    : "hover:bg-slate-100"
-                }
-                variant="primary"
-                onClick={() => handleMenuChange(category.name)}
-                size="sm"
-                key={category.id}
-                onDoubleClick={() => {
-                  setOpen(false)
-                  router.push(`/categories/${category.handle}`)
-                }}
-              >
-                <TranslatedText text={category.name} />
-              </Button>
-            ))}
+            {cacheCategories
+              .get(CacheKeys.ParentCategories)
+              ?.map((category) => (
+                <Button
+                  className={
+                    currentSelectedMenu?.name === category.name
+                      ? "bg-red-700 hover:bg-red-600 text-white focus-visible:!shadow-transparent focus-visible:!outline-0"
+                      : "hover:bg-slate-100"
+                  }
+                  variant="primary"
+                  onClick={() => handleMenuChange(category.name)}
+                  size="sm"
+                  key={category.id}
+                  onDoubleClick={() => {
+                    setOpen(false)
+                    router.push(`/categories/${category.handle}`)
+                  }}
+                >
+                  <TranslatedText text={category.name} />
+                </Button>
+              ))}
           </SheetHeader>
 
           <SheetDescription asChild>
@@ -247,28 +235,6 @@ const MobileMenu = ({ categoriesData }: MobileMenuProps) => {
                             />
                           </span>
                         </Link>
-                        {/* {
-                          subCategory.handle.split("-")[1] === "designers" && (
-                            <Link
-                              href={`/brand/${subCategory.handle
-                                .replace("-designers", "")
-                                .replace(/s$/, "")}`}
-                              onClick={() => setOpen(false)}
-                              className='text-xs capitalize font-normal text-red-500 absolute top-1/2 -translate-y-1/2'
-                              style={
-                                locale === "ar"
-                                  ? {
-                                      left: "18px",
-                                    }
-                                  : {
-                                      right: "18px",
-                                    }
-                              }
-                            >
-                              Designers A-Z
-                            </Link>
-                          )
-                        } */}
                       </AccordionTrigger>
                       {childSubCategories.length > 0 && (
                         <AccordionContent>
@@ -294,7 +260,8 @@ const MobileMenu = ({ categoriesData }: MobileMenuProps) => {
                                 </Link>
                               ))}
 
-                            {subCategory.handle.split("-")[1] === "designers" && (
+                            {subCategory.handle.split("-")[1] ===
+                              "designers" && (
                               <Link
                                 href={`/brand/${subCategory.handle
                                   .replace("-designers", "")
@@ -353,10 +320,10 @@ const MobileMenu = ({ categoriesData }: MobileMenuProps) => {
                     className="w-full text-white font-semibold py-2 px-6 h-10 rounded-md hover:bg-green-600 transition"
                     style={{ backgroundColor: "#C32126" }}
                     onClick={() => {
-                      setOpen(false) // close sheet
+                      setOpen(false)
                       setTimeout(() => {
-                        openAuthModal() // open modal after sheet closes
-                      }, 300) // adjust timing if needed
+                        openAuthModal()
+                      }, 300)
                     }}
                   >
                     <TranslatedText text="My Account" />

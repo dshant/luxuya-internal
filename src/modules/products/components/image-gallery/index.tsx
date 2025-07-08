@@ -7,8 +7,7 @@ import { Fragment, useCallback, useEffect, useState } from "react"
 import { ChevronLeft, ChevronRight, X, Share2 } from "lucide-react"
 import { cn } from "@lib/util/common"
 import { Dialog, Transition, DialogPanel } from "@headlessui/react"
-import ZoomImageMobile from "./zoomImageMobile";
-import ZoomImageDesktop from './zoomImageDesktop';
+import ZoomImage from "./zoom-image";
 
 type ImageGalleryProps = {
   title: string
@@ -18,7 +17,6 @@ type ImageGalleryProps = {
 const ImageGallery = ({ title, images }: ImageGalleryProps) => {
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [isMobile, setIsMobile] = useState(false)
 
   const [mainCarouselRef, mainEmblaApi] = useEmblaCarousel({
     loop: true,
@@ -78,17 +76,6 @@ const ImageGallery = ({ title, images }: ImageGalleryProps) => {
       modalEmblaApi.scrollTo(selectedIndex)
     }
   }, [modalEmblaApi, selectedIndex])
-
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768)
-    }
-
-    checkMobile() // Check on mount
-
-    window.addEventListener("resize", checkMobile)
-    return () => window.removeEventListener("resize", checkMobile)
-  }, [])
 
   if (!images) return null
 
@@ -186,7 +173,7 @@ const ImageGallery = ({ title, images }: ImageGalleryProps) => {
               </button>
 
               <div
-                className="hidden overflow-hidden lg:block absolute top-4 left-4"
+                className="hidden overflow-hidden lg:block absolute top-4 left-4 z-[78]"
                 ref={thumbCarouselRef}
               >
                 <div className="grid grid-flow-row gap-y-2">
@@ -221,7 +208,7 @@ const ImageGallery = ({ title, images }: ImageGalleryProps) => {
                       <div
                         className="h-screen flex items-center justify-center"
                         key={index}
-                      >{isMobile?<ZoomImageMobile src={image?.url.toString()} />:<ZoomImageDesktop src={image?.url.toString()} />}
+                      ><ZoomImage src={image?.url.toString()} />
                       </div>
                     ))}
                   </div>
