@@ -2,7 +2,8 @@ import { cn } from "@lib/util/common"
 import { HttpTypes } from "@medusajs/types"
 import { Button } from "@modules/common/components/ui/button"
 import { SizeChartModal } from "../sizeChartModal"
-import React, { useEffect, useMemo, useState } from "react"
+import React, { use, useEffect, useMemo, useState } from "react"
+import { isEqual } from "lodash"
 
 type OptionSelectProps = {
   option: HttpTypes.StoreProductOption
@@ -18,6 +19,17 @@ type OptionSelectProps = {
   cart?: any
   selected?: any
   onHover?: boolean
+  inStock?: boolean
+  options: any
+}
+
+const optionsAsKeymap = (
+  variantOptions: HttpTypes.StoreProductVariant["options"]
+) => {
+  return variantOptions?.reduce((acc: Record<string, string>, varopt: any) => {
+    acc[varopt.option_id] = varopt.value
+    return acc
+  }, {})
 }
 
 const OptionSelect: React.FC<OptionSelectProps> = ({
@@ -32,6 +44,8 @@ const OptionSelect: React.FC<OptionSelectProps> = ({
   disabled,
   product,
   stockStatus,
+  inStock,
+  options,
 }) => {
   const filteredOptions = (option?.values ?? [])?.map((v) => v?.value)
   const defaultOption = fallbackOption?.options || []
@@ -88,39 +102,56 @@ const OptionSelect: React.FC<OptionSelectProps> = ({
           <SizeChartModal product={product} isModal={true} />
         )}
       </div>
-
       <div
         className="flex flex-wrap justify-start gap-2"
         data-testid={dataTestId}
       >
-        {filteredOptions?.map((v) => {
-          const isOutOfStock = outOfStockSizes?.some(
-            (size) => size[option.id] === v
-          )
-          return (
-            <Button
-              variant={v === current ? "default" : "outline"}
-              onClick={() =>
-                ((option?.title?.includes("Size") && !isOutOfStock) ||
-                  option?.title) &&
-                updateOption(option.id, v)
-              }
-              key={v}
-              className={cn(
-                "transition-all duration-300 ease-in-out hover:scale-[1.05]",
-                {
-                  "ring-1 ring-black": v === current && !isOutOfStock,
-                  "line-through opacity-50":
-                    option?.title !== "Color" && isOutOfStock,
+        {options &&
+          filteredOptions?.map((v) => {
+            const isOutOfStock = outOfStockSizes?.some(
+              (size) => size[option.id] === v
+            )
+
+            const simulatedOptions = {
+              ...options,
+              [option.id]: v,
+            }
+            const isVariantValid = product?.variants?.some((variant: any) => {
+              if (!variant?.options) return false
+              const variantOptions = optionsAsKeymap(variant.options)
+              return isEqual(variantOptions, simulatedOptions)
+            })
+            return (
+              <Button
+                variant={v === current ? "default" : "outline"}
+                onClick={() =>
+                  ((option?.title?.includes("Size") && !isOutOfStock) ||
+                    option?.title) &&
+                  updateOption(option.id, v)
                 }
-              )}
-              disabled={disabled || (isOutOfStock && option?.title !== "Color")}
-              data-testid="option-button"
-            >
-              {v}
-            </Button>
-          )
-        })}
+                key={v}
+                className={cn(
+                  "transition-all duration-300 ease-in-out hover:scale-[1.05]",
+                  {
+                    "ring-1 ring-black": v === current && !isOutOfStock,
+                    "line-through opacity-50":
+                      option?.title !== "Color" &&
+                      !isOutOfStock &&
+                      !isVariantValid,
+                  }
+                )}
+                disabled={
+                  disabled ||
+                  (!isOutOfStock &&
+                    !isVariantValid &&
+                    option?.title !== "Color")
+                }
+                data-testid="option-button"
+              >
+                {v}
+              </Button>
+            )
+          })}
       </div>
       {allOptions && allOptions.length > 1 && option?.title !== "Color" && (
         <p className="text-red-600 font-semibold">{stockStatus}</p>

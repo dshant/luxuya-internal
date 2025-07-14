@@ -69,7 +69,6 @@ export default function ProductActions({
   }, [deletedId])
 
   // Check if size, color or defaultTitle is present or not
-
   const hasColor = product?.options?.some(
     (option: HttpTypes.StoreProductOption) =>
       option.title.toLowerCase().includes("color")
@@ -87,7 +86,8 @@ export default function ProductActions({
 
   // Helper to get real-time inventory for a variant
   const getRealInventory = (variant: any) => {
-    const cartQty = cart?.find((item: any) => item?.variant_id === variant?.id)?.quantity || 0
+    const cartQty =
+      cart?.find((item: any) => item?.variant_id === variant?.id)?.quantity || 0
     return (variant?.inventory_quantity || 0) - cartQty
   }
 
@@ -99,7 +99,7 @@ export default function ProductActions({
   const fallbackVariant = product?.variants?.find(
     (variant: any) => getRealInventory(variant) > 0
   )
-  const defaultVariant = cheapestVariant || fallbackVariant;
+  const defaultVariant = cheapestVariant || fallbackVariant
 
   const [options, setOptions] = useState<Record<string, string | undefined>>({})
   const [isAdding, setIsAdding] = useState(false)
@@ -126,21 +126,31 @@ export default function ProductActions({
   // Dynamically compute outOfStockSizes for all variants based on real-time inventory
   const computedOutOfStockSizes = useMemo(() => {
     if (!product?.variants) return []
-    return product.variants.reduce((acc: Record<string, string>[], variant: any) => {
-      // Calculate cart quantity for this variant
-      const cartQty = cart?.find((item: any) => item?.variant_id === variant?.id)?.quantity || 0
-      const realInventory = (variant?.inventory_quantity || 0) - cartQty
-      if (variant.manage_inventory && realInventory <= 0) {
-        const optionsMap = optionsAsKeymap(variant.options)
-        if (optionsMap && Object.keys(optionsMap).length > 0) {
-          // Avoid duplicates
-          if (!acc.some((opt: Record<string, string>) => JSON.stringify(opt) === JSON.stringify(optionsMap as Record<string, string>))) {
-            acc.push(optionsMap as Record<string, string>)
+    return product.variants.reduce(
+      (acc: Record<string, string>[], variant: any) => {
+        // Calculate cart quantity for this variant
+        const cartQty =
+          cart?.find((item: any) => item?.variant_id === variant?.id)
+            ?.quantity || 0
+        const realInventory = (variant?.inventory_quantity || 0) - cartQty
+        if (variant.manage_inventory && realInventory <= 0) {
+          const optionsMap = optionsAsKeymap(variant.options)
+          if (optionsMap && Object.keys(optionsMap).length > 0) {
+            if (
+              !acc.some(
+                (opt: Record<string, string>) =>
+                  JSON.stringify(opt) ===
+                  JSON.stringify(optionsMap as Record<string, string>)
+              )
+            ) {
+              acc.push(optionsMap as Record<string, string>)
+            }
           }
         }
-      }
-      return acc
-    }, [] as Record<string, string>[])
+        return acc
+      },
+      [] as Record<string, string>[]
+    )
   }, [product?.variants, cart])
 
   // Update the options when a variant is selected
@@ -165,18 +175,20 @@ export default function ProductActions({
 
   // Calculate current cart item quantity for inventory display
   const currentCartItemQuantity = useMemo(() => {
-    return product?.variants
-      ?.map((variant: any) => {
-        const findItem = cart?.find(
-          (item: any) =>
-            item?.title === variant?.title &&
-            variant?.id === item?.variant_id &&
-            item?.title === selectedVariant?.title
-        )
-        return findItem ? findItem?.quantity : 0
-      })
-      .filter((item: any) => item > 0)
-      ?.at(0) || 0
+    return (
+      product?.variants
+        ?.map((variant: any) => {
+          const findItem = cart?.find(
+            (item: any) =>
+              item?.title === variant?.title &&
+              variant?.id === item?.variant_id &&
+              item?.title === selectedVariant?.title
+          )
+          return findItem ? findItem?.quantity : 0
+        })
+        .filter((item: any) => item > 0)
+        ?.at(0) || 0
+    )
   }, [product?.variants, cart, selectedVariant])
 
   // Calculate inventory quantity for stock status display
@@ -300,34 +312,32 @@ export default function ProductActions({
 
   // Check if the selected variant is in stock
   const inStock = useMemo(() => {
-    if (
-      selectedVariant?.manage_inventory &&
-      inventoryQty > 0
-    ) {
+    if (selectedVariant?.manage_inventory && inventoryQty > 0) {
       return true
     }
     return false
   }, [selectedVariant, inventoryQty])
 
-
   // Calculate cart item quantity for the selected variant
   const cartItemQuantity = useMemo(() => {
-    return product?.variants
-      ?.map((variant: any) => {
-        const findItem = cart?.find(
-          (item: any) =>
-            item?.title === variant?.title &&
-            variant?.id === item?.variant_id &&
-            item.title === selectedVariant?.title
-        )
-        if (findItem?.quantity !== selectedVariant?.inventory_quantity) {
-          return 0
-        } else {
-          return 1
-        }
-      })
-      .filter((item: any) => item > 0)
-      ?.at(0) || 0
+    return (
+      product?.variants
+        ?.map((variant: any) => {
+          const findItem = cart?.find(
+            (item: any) =>
+              item?.title === variant?.title &&
+              variant?.id === item?.variant_id &&
+              item.title === selectedVariant?.title
+          )
+          if (findItem?.quantity !== selectedVariant?.inventory_quantity) {
+            return 0
+          } else {
+            return 1
+          }
+        })
+        .filter((item: any) => item > 0)
+        ?.at(0) || 0
+    )
   }, [product?.variants, cart, selectedVariant])
 
   return (
@@ -369,6 +379,7 @@ export default function ProductActions({
                     <div key={option.id}>
                       <OptionSelect
                         option={option}
+                        options={options}
                         fallbackOption={defaultVariant}
                         current={options?.[option.id]}
                         updateOption={setOptionValue}
@@ -378,6 +389,7 @@ export default function ProductActions({
                         outOfStockSizes={computedOutOfStockSizes}
                         product={product}
                         stockStatus={stockStatus}
+                        inStock={inStock}
                       />
                     </div>
                   )
@@ -444,7 +456,7 @@ export default function ProductActions({
             )}
           </div>
         </div>
-        <div className="sticky lg:hidden bottom-0 py-4 bg-white border-0 border-t border-gray-300  shadow-none">
+        <div className="fixed z-[50] left-0 right-0 bottom-0 px-4 lg:hidden py-4 bg-white border-0 border-t border-gray-300  shadow-none">
           <div className="flex gap-x-4">
             <Button
               onClick={hasColor || hasSize ? open : handleAddToCart}
@@ -453,26 +465,18 @@ export default function ProductActions({
                 !selectedVariant ||
                 !!disabled ||
                 isAdding ||
-                // !isValidVariant ||
                 cartItemQuantity
               }
               variant="primary"
               className="flex w-full font-bold text-lg items-center rounded-sm gap-x-2 bg-[#c52128] text-white"
-              // isLoading={isAdding}
               data-testid="add-product-button"
             >
               <ShoppingBag />
-              {
-                // !selectedVariant &&
-                // Object.keys(options).length !== product?.options?.length ? (
-                // "Select variant"
-                // ):
-                !inStock ? (
-                  <TranslatedText text="Out of stock" />
-                ) : (
-                  <TranslatedText text="Add to Bag" />
-                )
-              }
+              {!inStock ? (
+                <TranslatedText text="Out of stock" />
+              ) : (
+                <TranslatedText text="Add to Bag" />
+              )}
             </Button>
           </div>
         </div>
@@ -485,26 +489,18 @@ export default function ProductActions({
               !selectedVariant ||
               !!disabled ||
               isAdding ||
-              // !isValidVariant ||
               cartItemQuantity
             }
             variant="primary"
             className="flex w-full font-bold rounded-sm items-center gap-x-2 bg-[#c52128] text-white"
-            // isLoading={isAdding}
             data-testid="add-product-button"
           >
             <ShoppingBag />
-            {
-              // !selectedVariant &&
-              // Object.keys(options).length !== product?.options?.length ? (
-              // "Select variant"
-              // ):
-              !inStock ? (
-                <TranslatedText text="Out of stock" />
-              ) : (
-                <TranslatedText text="Add to Bag" />
-              )
-            }
+            {!inStock ? (
+              <TranslatedText text="Out of stock" />
+            ) : (
+              <TranslatedText text="Add to Bag" />
+            )}
           </Button>
           <div className="border border-gray-200 flex justify-center items-center px-3">
             <AddToWishList
@@ -543,7 +539,7 @@ export default function ProductActions({
           </div>
         </div>
 
-        <MobileActions
+        {/* <MobileActions
           product={product}
           //@ts-ignore
           variant={selectedVariant}
@@ -558,7 +554,7 @@ export default function ProductActions({
           isAdding={isAdding}
           show={(hasColor || hasSize) && !inView}
           optionsDisabled={!!disabled || isAdding}
-        />
+        /> */}
       </div>
 
       <Transition appear show={state} as={Fragment}>
@@ -631,10 +627,12 @@ export default function ProductActions({
                               <div key={option.id}>
                                 <OptionSelect
                                   option={option}
+                                  options={options}
                                   fallbackOption={defaultVariant}
                                   current={options?.[option.id]}
                                   updateOption={setOptionValue}
                                   title={option.title ?? ""}
+                                  data-testid="product-options"
                                   disabled={!!disabled || isAdding}
                                   outOfStockSizes={computedOutOfStockSizes}
                                   product={product}

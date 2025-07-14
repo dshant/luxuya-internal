@@ -146,7 +146,7 @@ export default async function CategoryTemplate({
   return (
     <>
       <JsonStructuredData data={itemListSchema} />
-      <div className="mx-auto flex w-full flex-col gap-y-4">
+      <div className="mx-auto flex w-full flex-col gap-y-4 lg:px-2">
         {!category.metadata?.cover_url ? (
           <div className="flex flex-col gap-y-10">
             <div className="my-10 flex flex-col items-center justify-center gap-y-4 text-center">

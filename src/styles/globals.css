@@ -317,3 +317,28 @@ textarea {
 .wrapper-scroll::-webkit-scrollbar {
   width: 0px;
 }
+
+@keyframes slide-right {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.data-\[state\=open\]\:animate-slide-right[data-state="open"] {
+  animation: slide-right 0.4s ease-out forwards;
+}
+
+@keyframes slide-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+.data-\[state\=closed\]\:animate-slide-left[data-state="closed"] {
+  animation: slide-left 0.4s ease-in forwards;
+}
